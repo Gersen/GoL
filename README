@@ -1,0 +1,16 @@
+README
+
+
+* Une cellule morte avec exactement 3 voisins devient vivante (naissance liées à l'environnement optimal)
+
+* Une cellule vivante avec 2 ou 3 voisins vivants reste vivante, sinon elle meurt (plus de 3 voisine meure aussi ?)
+
+
+dimension de 15 par 40 .
+
+Définition de l'algo :
+
+utilisation de tableaux 2d
+
+1 Une fonction Reset
+
