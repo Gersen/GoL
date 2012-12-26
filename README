@@ -13,4 +13,19 @@ Définition de l'algo :
 utilisation de tableaux 2d
 
 1 Une fonction Reset
+	void Reset_tab (int tab[][Y],int Size_X, int Size_Y);
+
+2 Une fonction Aléatoire
+	void Aleatoire_Tab (int tab[][Y], int Size_X, int Size_Y);
+
+3 Une fonction Affiche
+	void Affiche_Tab (int tab[][Y], int Size_X, int Size_Y);
+
+============================================================================COMPILATION AVEC MAKEFILE=====================
+
+utiliser le fichier makefile pour compiler
+
+cmd : make
+
+	
 

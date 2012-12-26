@@ -1,4 +1,0 @@
-GoL
-===
-
-Game of life
