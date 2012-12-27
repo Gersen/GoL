@@ -12,5 +12,20 @@ Définition de l'algo :
 
 utilisation de tableaux 2d
 
-1 Une fonction Reset
+1 Une fonction Aléatoire : pour la mise en place du tableau
+
+2 une fonction d'affichage : utilisation du flot sortant
+
+3 une fonction qui détermine Alive or Dead or BornCell :
+	pour cela on sait que: 
+		0 morte 1 envie ou naissante
+
+		Si CurrentCell== 0 && Neighbour>= 3  <=== probleme il faut compter nbr Voisins par rapport à la cellule courante 
+			Alors
+				CurrentCell= 1
+		Si CurrentCell== 1 &&  Neighbour<2 || Neighbour>3
+			Alors
+				CurrentCell = 0
+			Sinon
+				Reste en vie
 
