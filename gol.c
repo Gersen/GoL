@@ -2,23 +2,29 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define X 15
-#define Y 40
+#define X 10
+#define Y 45
 
 
 /************** Variables globales ****************
 *                                                  *
 ***************************************************/
 
-int NbrCell = 0;
 
 int rdtsc(){
-	__asm__ __volatile__("rdtsc");
+	__asm__ __volatile__("rdtsc"); /*base rdtsc sur la frequence du CPU (time stamp)*/
+
 }
+int Origin_Cells[X][Y];
 
 
+/***************** PROTOTYPES***********************
+*                                                  *
+***************************************************/
 
-void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]  );
+
+void Random_Cells(int Size_Row,  int Size_col, int Origin_Cells[Size_Row][Size_col]  );
+void Affichage_Tab(int Size_Row, int Size_col, int Origin_Cells[Size_Row][Size_col] );
 
 
 /************** DECLARATION DU MAIN****************
@@ -27,32 +33,30 @@ void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]
 
 int main(void)
 {
+	int i,j;
 	
-	int Origin_tab[X][Y];
-	Origin_Cells(X,Y,Origin_tab);
+	 Random_Cells(X,Y,Origin_Cells);
+
+	 Affichage_Tab(X,Y,Origin_Cells);
 	
-	printf("%d \n", NbrCell  );
 	
 	
 
 	return 0;
 }
 
+/* Fonction de mise en place du tableau de façon aléatoire, qui renvoit à Origin_Cells en variable globale */
 
-void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col] ) {
+void Random_Cells(int Size_Row,  int Size_col, int Origin_Cells[Size_Row][Size_col] ) {
 	int i, j;
 	for(i = 0; i < Size_Row; i++) {
 		for(j = 0; j < Size_col; j++) {
 			
 			if( i == (Size_Row -1) ||i == 0 || j == 0 || j == (Size_col -1)) { /* on délimite les bordures du tableau */
-				tab_cells[i][j] = -1;
+				Origin_Cells[i][j] = -1;
 			} else {
 				srand(rdtsc()); /*fonction srand basé sur la fréquence du processeur*/
-				tab_cells[i][j]= rand()% 2; /* utilisation modulo partie restante 0 ou 1 */
-
-				if (tab_cells[i][j] == 1){ /* Si valeur 1 on augmente la population de 1 */
-					NbrCell++;
-				}
+				Origin_Cells[i][j]= rand()% 2; /* utilisation modulo partie restante 0 ou 1 */
 				
 			}
 			 
@@ -61,6 +65,29 @@ void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]
 	
 }
 	
+/********************Fonction d'affichage*************************/
 
+void Affichage_Tab(int Size_Row, int Size_col, int Origin_Cells[Size_Row][Size_col]){
+	int i,j;
+
+		for(i=0; i< Size_Row; i++){
+			for (j = 0; j < Size_col; j++)
+			{
+				switch(Origin_Cells[i][j]){ /* utilisation de putchar pour afficher en stdout */
+
+					case -1 : putchar('#');
+					break;
+					case 0 : putchar(' ');
+					break;
+					case 1 : putchar('+');
+					break;
+
+					default: break;
+				}
+			}
+			putchar('\n'); /*permet de sauter à la ligne a la fin de chq itération*/
+		}
+
+}
 
 
