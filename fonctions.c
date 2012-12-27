@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define X 15
-#define Y 40
+#include <stdio.h>
+#include <stdlib.h>
 
-void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row, int Size_col) {
-	int i, j, k;
+
+
+int Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col] ) {
+	int i, j,NbrCell;
 	for(i = 0; i < Size_Row; i++) {
 		for(j = 0; j < Size_col; j++) {
 			
@@ -23,11 +25,8 @@ void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row, int Size_col)
 			 
 		}
 	}
-	Generate_cells(tab_cells, Size_Row, Size_col);
+	return NbrCell;
 }
-
-void Generate_cells(int Initial_tab [Size_Row][Size_col],int Size_Row, int Size_col)
-
 
 
 
