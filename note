@@ -9,7 +9,7 @@ Problemes technique:
 
 1 envoi d'information à la fonction l'odre de déclaration est important, en effet dans un premier temps
 
-	void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row,  int Size_col);
+	void Random_Cells(int tab_cells[Size_Row][Size_col], int Size_Row,  int Size_col);
 
 	message après compilation :
 		fonctions.c:29:38: error: ‘Size_Row’ undeclared here (not in a function)
@@ -19,9 +19,14 @@ Problemes technique:
 
 	inversion des déclarations
 
-	void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]  );
+	void Random_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]  );
 
-2 je me rend compte d'un probleme
+2 je me rend compte d'un probleme la fonction aléatoire que j'utilise dans la Origin_Cells revoit le meme cycle aléatoire, après différente recherchent sur forum et sur http://nicolasj.developpez.com/articles/libc/hasard/ en particulier, le problème vidrait que le tirage est absé sur la même graine (seed), ainsi il y'a le même cycle de tirage (ceci était d'autant plus visible en comptabilisant la population qui s'élevait au meme nombre 236 à chaque appel de la fonction). Pour pallier à ce problème la méthode la plus fréquente est de faire appel à srand avec en arguement time, en effet ici on calcul les nombres aléatoires à partir de time.l'autre méthode varie sur la fréquence du cpu avec pour désaventage qu'elle ne fonctionne que pour les x86.
+
+3 . Ecriture de la fonction d'affichage (Affichage).
+	Après test nous arrivons à afficher les -1; 0 et 1 il faut convertir ces valeurs pour afficher des symboles, je pense à une fonction qui boucle à partir de Origin_Cells, et une structure conditionnelle qui modifirait -1 en $ par exemple 0 en ' ' et 1 en '+'. Probleme cela modifira mon tableau Origin_Cells et implique donc la construction d'un second tableau (grand moment de reflexion , je fouille le net regarde une multitude code...je plonge dans mes livres sur le C). Au final je trouve un début de solution, énorme révélation pour moi je découvre l'interet d'un chapitre appelé "travailler avec l'écran et le clavier" du livre Le langage C de Peter Aitken et Bradley L Jones. Bref ce chapitre explique l'utilité de fonctions qui travaille sur le "flot" entrant et sortant ( stdin et stdout), je découvre la fonction putchar().Cette fonction (stdout) permet de travailler sur les flots sortant en somme entre le programme et l'écran. Mais une question se pose avec putchar() on donne en argument un valeur, non seulement cette valeur est écrite mais sort sur ecran, en fait j'ai compris que cette fonction (stdout) n'écrivait pas à proprement parler mais attrapait le flot sortant et convertissait certains octet en fonction des parametres donnés pour les afficher à l'écran.
+	Derniers probleme rencontré qui pouvait sembler évident le putchar('\n') pour la première boucle, en effet au début je n'avais pas mis de putchar() et l'affichage se faisait en ligne tronqué. il fallait juste penser au putchar('\n') pour revenir à la ligne à la fin de chaque itération de chaques lignes du tableau bidimensionelle. 
+
 
 
 
