@@ -9,7 +9,7 @@ void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row, int Size_col)
 	for(i = 0; i < Size_Row; i++) {
 		for(j = 0; j < Size_col; j++) {
 			
-			if(i == 0 || i == (Size_Row -1) || j == 0 || j == (Size_col -1)) { /* on délimite les bordures du tableau */
+			if( i == (Size_Row -1) ||i == 0 || j == 0 || j == (Size_col -1)) { /* on délimite les bordures du tableau */
 				tab_cells[i][j] = -1;
 			} else {
 
@@ -19,8 +19,8 @@ void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row, int Size_col)
 					NbrCell++;
 				}
 				
-				}
-			} 
+			}
+			 
 		}
 	}
 	Generate_cells(tab_cells, Size_Row, Size_col);
