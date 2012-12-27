@@ -7,19 +7,22 @@ concevoir le tableau et son initialisation. => Reflexion sur la problematique de
 
 Problemes technique:
 
-envoi d'information à la fonction l'odre de déclaration est important, en effet dans un premier temps
+1 envoi d'information à la fonction l'odre de déclaration est important, en effet dans un premier temps
 
-void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row,  int Size_col);
+	void Origin_Cells(int tab_cells[Size_Row][Size_col], int Size_Row,  int Size_col);
 
-message après compilation :
-	fonctions.c:29:38: error: ‘Size_Row’ undeclared here (not in a function)
-fonctions.c:29:48: error: ‘Size_col’ undeclared here (not in a function)
+	message après compilation :
+		fonctions.c:29:38: error: ‘Size_Row’ undeclared here (not in a function)
+	fonctions.c:29:48: error: ‘Size_col’ undeclared here (not in a function)
 
-Solution trouvée :
+	Solution trouvée :
 
-inversion des déclarations
+	inversion des déclarations
 
-void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]  );
+	void Origin_Cells(int Size_Row,  int Size_col, int tab_cells[Size_Row][Size_col]  );
+
+2 je me rend compte d'un probleme
+
 
 
 
