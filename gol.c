@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define X 15
-#define Y 45
+#define Row 15
+#define Col 45
 
 
 /************** Variables globales ****************
@@ -15,8 +15,8 @@ int rdtsc(){
 	__asm__ __volatile__("rdtsc"); /*base rdtsc sur la frequence du CPU (time stamp)*/
 
 }
-int Origin_Cells[X][Y];
-int buffer[X][Y];
+int init[Row][Col];
+int buffer[Row][Col];
 
 
 /***************** PROTOTYPES***********************
@@ -24,11 +24,11 @@ int buffer[X][Y];
 ***************************************************/
 
 
-void Random_Cells(int Size_Row,  int Size_Col, int Origin_Cells[Size_Row][Size_Col]  );
-void Affichage_Tab(int Size_Row, int Size_Col, int Origin_Cells[Size_Row][Size_Col] );
-void GenerationCells (int Size_Row, int Size_Col, int Origin_Cells[Size_Row][Size_Col]);
-int CountNeigh(int a, int b, int Size_Row,int Size_Col, int CurrentCell[Size_Row][Size_Col]);
-
+void beginGame(int init[Row][Col]);
+void Affichage_Tab(int init[Row][Col] );
+void GenerationCells (int init[Row][Col]);
+int CountNeigh(int a, int b,int CurrentCell[Row][Col]);
+void Random_Cells(int Origin_Cells[Row][Col] );
 
 /************** DECLARATION DU MAIN****************
 *                                                  *
@@ -37,14 +37,25 @@ int CountNeigh(int a, int b, int Size_Row,int Size_Col, int CurrentCell[Size_Row
 int main(void)
 {
 	int i,j;
+	init[5][20]= 1;
+	init[5][21]= 1;
+	init[5][22]= 1;
+
+	init[6][20]= 1;
+	init[7][20]= 1;
 	
-	 Random_Cells(X,Y,Origin_Cells);
-	 Affichage_Tab(X,Y,Origin_Cells);
+
+	init[6][22]= 1;
+	init[7][22]= 1;
+	
+	
+	beginGame(init);
+	 Affichage_Tab(init);
 	 
-	 for(i=0;i<15;i++){
+	 for(i=0;i<100;i++){
 	 	sleep(2);
-	 	GenerationCells(X,Y,Origin_Cells);
-	 	Affichage_Tab(X,Y,Origin_Cells);
+	 	GenerationCells(init);
+	 	Affichage_Tab(init);
 	 }
 	
 	return 0;
@@ -55,37 +66,46 @@ int main(void)
 *                                                  *
 ***************************************************/
 
-/* Fonction de mise en place du tableau de façon aléatoire, qui renvoit à Origin_Cells en variable globale */
-
-void Random_Cells(int Size_Row,  int Size_Col, int Origin_Cells[Size_Row][Size_Col] ) {
+void beginGame(int init[Row][Col]){
 	int i, j;
-	for(i = 0; i < Size_Row; i++) {
-		for(j = 0; j < Size_Col; j++) {
+	for(i = 0; i < Row; i++) {
+		for(j = 0; j < Col; j++) {
 			
-			if( i == (Size_Row -1) ||i == 0 || j == 0 || j == (Size_Col -1)) { /* on délimite les bordures du tableau */
-				Origin_Cells[i][j] = -1;
+			if( i == (Row -1) ||i == 0 || j == 0 || j == (Col -1)) { /* on délimite les bordures du tableau */
+				init[i][j] = -1;
+			} 	 
+		}
+	}	
+}
+
+/* Fonction de mise en place du tableau de façon aléatoire, qui renvoit à init en variable globale */
+
+void Random_Cells(int init[Row][Col] ) {
+	int i, j;
+	for(i = 0; i < Row; i++) {
+		for(j = 0; j < Col; j++) {
+			
+			if( i == (Row -1) ||i == 0 || j == 0 || j == (Col -1)) { /* on délimite les bordures du tableau */
+				init[i][j] = -1;
 			} else {
 				srand(rdtsc()); /*fonction srand basé sur la fréquence du processeur*/
-				Origin_Cells[i][j]= rand()% 2; /* utilisation modulo partie restante 0 ou 1 */
-				
-			}
-			 
+				init[i][j]= rand()% 2; /* utilisation modulo partie restante 0 ou 1 */
+			}	 
 		}
-	}
-	
+	}	
 }
 	
 /********************Fonction d'affichage*************************/
 
-void Affichage_Tab(int Size_Row, int Size_Col, int Origin_Cells[Size_Row][Size_Col]){
+void Affichage_Tab(int init[Row][Col]){
 	int i,j;
 	system("clear");
-		for(i=0; i< Size_Row; i++){
-			for (j = 0; j < Size_Col; j++)
+		for(i=0; i< Row; i++){
+			for (j = 0; j < Col; j++)
 			{
-				switch(Origin_Cells[i][j]){ /* utilisation de putchar pour afficher en stdout */
+				switch(init[i][j]){ /* utilisation de putchar pour afficher en stdout */
 
-					case -1 : putchar('#');
+					case -1 : putchar('*');
 					break;
 					case 0 : putchar(' ');
 					break;
@@ -109,30 +129,26 @@ void Affichage_Tab(int Size_Row, int Size_Col, int Origin_Cells[Size_Row][Size_C
 		reste en vie (CurrentCell =1) si a au moins deux ou trois voisins au dela ou en deça elle meurt de surpopulation ou d'isolement.
 		******************************************************************************************************************************/
 
-void GenerationCells (int Size_Row, int Size_Col, int Origin_Cells[Size_Row][Size_Col]){
-
-	int i,j, NeighCell;
-
-	for (i = 0; i < Size_Row ; i++){
-
-		for ( j = 0; j < Size_Col; j++)
-		{
-			if (Origin_Cells[i][j]== -1) continue; /*permet de reboucler directement.*/
-			NeighCell = CountNeigh(i,j,Size_Row,Size_Col,Origin_Cells);
-			if ((Origin_Cells[i][j] == 1) && (NeighCell<2 || NeighCell >3 )){
+void GenerationCells (int init[Row][Col]){
+	int i,j, NeighCell; /* variable NeighCell contenant le nombre de voisins */
+	for (i = 0; i < Row ; i++){
+		for ( j = 0; j < Col; j++){
+			if (init[i][j]== -1) continue; /* continue : permet de reboucler directement.*/
+			NeighCell = CountNeigh(i,j,init);
+			if ((init[i][j] == 1) && (NeighCell<2 || NeighCell >3 )){
 				buffer[i][j]= 0;
-				}else if(Origin_Cells [i][j]== 0 && NeighCell==3){
+				}else if(init [i][j]== 0 && NeighCell==3){
 					buffer[i][j]= 1;
-				}
-			
+				}		
 		}
 	}
-for (i = 0; i < Size_Row ; i++)
+
+for (i = 0; i < Row ; i++)
 	{
-		for ( j = 0; j < Size_Col; j++)
+		for ( j = 0; j < Col; j++)
 		{
-			if (Origin_Cells[i][j]== -1) continue; /*permet de reboucler directement.*/
-			Origin_Cells[i][j]= buffer[i][j];
+			if (init[i][j]== -1) continue; /*permet de reboucler directement.*/
+			init[i][j]= buffer[i][j];
 			
 		}
 	}
@@ -145,10 +161,10 @@ for (i = 0; i < Size_Row ; i++)
 		i=2 [ ] [ ] [ ]
 
 		Dans ce cas il faut analyser i et j -1 et i et j +1.
-	Donc à partir de la cellule courante Origin_Cells verfier toutes les -1 et +1 cellules et les comptabiliser
+	Donc à partir de la cellule courante init verfier toutes les -1 et +1 cellules et les comptabiliser
 	il faut donc envoyer la taille de note tableau initial à la fonction
 */
-int CountNeigh(int a, int b, int Size_Row,int Size_Col, int CurrentCell[Size_Row][Size_Col]){
+int CountNeigh(int a, int b,int CurrentCell[Row][Col]){
 	int i,j, k=0;
 
 	for (i = a-1; i <= a+1; i++)  /* a-1 pour commencer aux cellules inf jusqu à a+1 pour les cellules sup*/
