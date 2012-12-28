@@ -90,4 +90,36 @@ void Affichage_Tab(int Size_Row, int Size_col, int Origin_Cells[Size_Row][Size_c
 
 }
 
+/******************************Generation des cellules*************************************************************************/
+/* 
+* objectif : il faut vérifier les voisins en fonctions de la cellule courante (CurrentCell)
+	déterminer si une cellule qui est morte (donc = 0) si elle a au moins 3 voisins NeighCell (pour Neighbor Cell)
+	alors elle devient vivante.
+	et si une cellule qui est en vie il faut déterminer si elle reste en vie ou si elle meurt 
+		reste en vie (CurrentCell =1) si a au moins deux ou trois voisins au dela ou en deça elle meurt de surpopulation ou d'isolement.
+		******************************************************************************************************************************/
+
+void GenerationCells (int Size_Row, int Size_col, int Origin_Cells[Size_Row][Size_col]){
+
+	int i,j;
+
+	for (i = 0; i < Size_Row ; ++i)
+	{
+
+		for (int j = 0; j < Size_col; j++)
+		{
+			if (Origin_Cells[i][j]== -1) continue;
+
+			if (Origin_Cells == 1 && (NeighCell<2 || NeighCell >3 )){
+				buffer[i][j]= 0;
+			}
+		}
+	}
+}
+
+
+
+
+		
+
 
