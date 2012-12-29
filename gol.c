@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define Row 5
-#define Col 5
+#define Row 7
+#define Col 8
 
 
 /************** Variables globales ****************
@@ -37,9 +37,13 @@ void Random_Cells(int Origin_Cells[Row][Col] );
 int main(void)
 {
 	int i,j;
-	init[3][1]= 1;
+	init[2][2]= 1;
+	init[2][3]= 1;
+	init[2][4]= 1;
 	init[3][2]= 1;
-	init[3][3]= 1;
+	init[4][2]= 1;
+	init[3][4]= 1;
+	init[4][4]= 1;
 
 	
 	
@@ -130,11 +134,14 @@ void GenerationCells (int init[Row][Col]){
 		for ( j = 0; j < Col; j++){
 			if (init[i][j]== -1) continue; /* continue : permet de reboucler directement.*/
 			NeighCell = CountNeigh(i,j,init);
-			printf("======GenerationCells======== \n" );
-			printf("Row :%d Col%d nombre: %d \n",i,j,NeighCell );
-			if (init[i][j] == 1 && NeighCell<2 || NeighCell >3 ){
+			/*printf("======GenerationCells======== \n" );
+			printf("Row :%d Col%d nombre: %d \n",i,j,NeighCell );*/
+			if (init[i][j] == 1 && NeighCell<2 || NeighCell>3  ){
 				buffer[i][j]= 0;
-				}else if(init [i][j]== 0 && NeighCell==3){
+			}else if(init[i][j] == 1 && (NeighCell==2||NeighCell==3 )){ /* correction du bug*/
+				buffer[i][j]= 1;
+			}
+			if(init [i][j]== 0 && NeighCell==3){
 					buffer[i][j]= 1;
 				}		
 		}
@@ -177,9 +184,7 @@ int CountNeigh(int a, int b,int CurrentCell[Row][Col]){
 
 		}
 	}
-	printf("======Fonction CountNeigh======== \n" );
-	printf("Row :%d Col%d nombre: %d \n",a,b,k );
-			sleep(2);
+	
 	return k;
 }
 
