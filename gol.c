@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define Row 15
-#define Col 45
+#define Row 5
+#define Col 5
 
 
 /************** Variables globales ****************
@@ -37,16 +37,10 @@ void Random_Cells(int Origin_Cells[Row][Col] );
 int main(void)
 {
 	int i,j;
-	init[5][20]= 1;
-	init[5][21]= 1;
-	init[5][22]= 1;
+	init[3][1]= 1;
+	init[3][2]= 1;
+	init[3][3]= 1;
 
-	init[6][20]= 1;
-	init[7][20]= 1;
-	
-
-	init[6][22]= 1;
-	init[7][22]= 1;
 	
 	
 	beginGame(init);
@@ -75,7 +69,8 @@ void beginGame(int init[Row][Col]){
 				init[i][j] = -1;
 			} 	 
 		}
-	}	
+	}
+
 }
 
 /* Fonction de mise en place du tableau de façon aléatoire, qui renvoit à init en variable globale */
@@ -135,7 +130,9 @@ void GenerationCells (int init[Row][Col]){
 		for ( j = 0; j < Col; j++){
 			if (init[i][j]== -1) continue; /* continue : permet de reboucler directement.*/
 			NeighCell = CountNeigh(i,j,init);
-			if ((init[i][j] == 1) && (NeighCell<2 || NeighCell >3 )){
+			printf("======GenerationCells======== \n" );
+			printf("Row :%d Col%d nombre: %d \n",i,j,NeighCell );
+			if (init[i][j] == 1 && NeighCell<2 || NeighCell >3 ){
 				buffer[i][j]= 0;
 				}else if(init [i][j]== 0 && NeighCell==3){
 					buffer[i][j]= 1;
@@ -167,17 +164,22 @@ for (i = 0; i < Row ; i++)
 int CountNeigh(int a, int b,int CurrentCell[Row][Col]){
 	int i,j, k=0;
 
-	for (i = a-1; i <= a+1; i++)  /* a-1 pour commencer aux cellules inf jusqu à a+1 pour les cellules sup*/
+	for (i = (a-1); i <(a+2); i++)  /* a-1 pour commencer aux cellules inf jusqu à a+1 pour les cellules sup*/
 	{
-		for (j = b-1 ; j <= b+1 ; j++)
+		for (j = (b-1) ; j < (b+2); j++)
 		{	
-			if (i== a && j == b ) continue;
-			if(CurrentCell[i][j]==1){
-				k++;
+			if (i== a && j == b )continue;
+			 if(CurrentCell[i][j]!=-1){
+				k+=CurrentCell[i][j];
+				
+				
 			}
+
 		}
 	}
-	
+	printf("======Fonction CountNeigh======== \n" );
+	printf("Row :%d Col%d nombre: %d \n",a,b,k );
+			sleep(2);
 	return k;
 }
 
