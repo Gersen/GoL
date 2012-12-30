@@ -1,0 +1,46 @@
+idée algo
+
+
+
+[ ][ ][ ][ ] |r0
+[ ][ ][ ][ ] |r1
+[ ][x][ ][ ] |r2
+[ ][ ][ ][ ] |r3
+_____________|
+j0 j1 j2 j3
+
+If (row == 1  &&  CurrentCell [row][col]== 1){ /* top */
+	
+	for (a= row -1;a <Max-1;a++){
+		for(b=col-1;b<col+2; b++){
+			if(CurrentCell[a][b]==1){
+				n++;
+			}
+		}
+	}
+}
+If ( == 1  &&  CurrentCell [row][col]== 1){ /* top */
+	
+	for (a= row -1;a <Max-1;a++){
+		for(b=col-1;b<col+2; b++){
+			if(CurrentCell[a][b]==1){
+				n++;
+			}
+		}
+	}
+}
+
+
+If (CurrentCell [i][j-1]== -1){
+	
+	for (i= 0;i<i+2;i++){
+		for(k=j-1;k<k+2; k++){
+			if(CurrentCell[i][k]==1){
+				n++;
+			}
+		}
+	}
+}
+
+
+

@@ -132,7 +132,7 @@ void GenerationCells (int init[Row][Col]){
 	int i,j, NeighCell; /* variable NeighCell contenant le nombre de voisins */
 	for (i = 0; i < Row ; i++){
 		for ( j = 0; j < Col; j++){
-			if (init[i][j]== -1) continue; /* continue : permet de reboucler directement.*/
+			if (init[i][j]== -1) continue;  /*continue : permet de reboucler directement.*/
 			NeighCell = CountNeigh(i,j,init);
 			/*printf("======GenerationCells======== \n" );
 			printf("Row :%d Col%d nombre: %d \n",i,j,NeighCell );*/
@@ -171,20 +171,52 @@ for (i = 0; i < Row ; i++)
 int CountNeigh(int a, int b,int CurrentCell[Row][Col]){
 	int i,j, k=0;
 
+
+/********** définition pour Top Border *******/
+	if(a==1){		/* a==1 car correspond à row = 1 nous sommes sur la 1er ligne */
+		for(i=Row-2; i<Row-1;i++){
+			for(j=b-1;j<b+2;j++){
+				if(CurrentCell[i][j]!=-1){
+				k+=CurrentCell[i][j];
+				}
+			}
+		}
+	}
+/***********définition pour Bottom Border******/
+	if(a==Row-2){
+		for(i=1 ; i< 2;i++){
+			for(j=b-1;j<b+2;j++){
+				if(CurrentCell[i][j]!=-1){
+				k+=CurrentCell[i][j];
+				}
+			}
+		}
+	}
+/************définition pour Left Border*******/
+
+	if(b==1){		
+		for(i=a-1; i< a+2;i++){
+			for(j=b-1;j<b+2;j++){
+				if(CurrentCell[i][j]!=-1){
+				k+=CurrentCell[i][j];
+				}
+			}
+		}
+	}
+
+
+
 	for (i = (a-1); i <(a+2); i++)  /* a-1 pour commencer aux cellules inf jusqu à a+1 pour les cellules sup*/
 	{
 		for (j = (b-1) ; j < (b+2); j++)
 		{	
 			if (i== a && j == b )continue;
-			 if(CurrentCell[i][j]!=-1){
-				k+=CurrentCell[i][j];
-				
-				
-			}
 
+			 if(CurrentCell[i][j]!=-1){
+				k+=CurrentCell[i][j];	
+			}
 		}
 	}
-	
 	return k;
 }
 
